@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useDebounce from "../Hooks/useDebounce";
 
 const Todo = () => {
   const [values, setValues] = useState({
@@ -9,8 +10,13 @@ const Todo = () => {
     JSON.parse(localStorage.getItem("todos") || "[]")
   );
 
+  const debouncedHandleInputChange = useDebounce((e) => {
+    console.log(e.target.value);
+  }, 300);
+
   function handleInputChange(e) {
     setValues({ ...values, [e.target.name]: e.target.value });
+    debouncedHandleInputChange(e);
   }
 
   function handleAddTodo(e) {
